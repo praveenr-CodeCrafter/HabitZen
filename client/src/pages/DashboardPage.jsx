@@ -1,5 +1,6 @@
 import React from 'react';
 import { Plus, CheckCircle2, Calendar, Award } from 'lucide-react';
+import Layout from '../components/layout';
 
 function Dashboard() {
   const stats = [
@@ -15,6 +16,7 @@ function Dashboard() {
   ];
 
   return (
+    <Layout>
     <div className="max-w-7xl mx-auto">
       {/* Stats Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
@@ -73,6 +75,7 @@ function Dashboard() {
         </div>
       </div>
     </div>
+    </Layout>
   );
 }
 
