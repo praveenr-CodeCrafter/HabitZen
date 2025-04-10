@@ -1,1 +1,60 @@
 @import "tailwindcss";
+
+
+/* Light theme colors */
+:root {
+  /* Backgrounds */
+  --color-bg-primary: #f9fafb;
+  --color-bg-secondary: #ffffff;
+  
+  /* Text */
+  --color-text-primary: #111827;
+  --color-text-secondary: #6b7280;
+  
+  /* Borders */
+  --color-border: #e5e7eb;
+  
+  /* Accent */
+  --color-accent: #4f46e5;
+}
+
+/* Dark theme colors */
+.dark {
+  /* Backgrounds */
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #1f2937;
+  
+  /* Text */
+  --color-text-primary: #f3f4f6;
+  --color-text-secondary: #9ca3af;
+  
+  /* Borders */
+  --color-border: #374151;
+  
+  /* Accent */
+  --color-accent: #818cf8;
+}
+
+/* Apply the variables */
+body {
+  @apply bg-gray-50 dark:bg-gray-900; /* You can keep your Tailwind classes */
+  /* Or use the CSS variables */
+  /* background-color: var(--color-bg-primary); */
+}
+
+/* Example of using these variables in custom classes */
+.custom-text {
+  color: var(--color-text-primary);
+}
+
+.custom-bg {
+  background-color: var(--color-bg-secondary);
+}
+
+.custom-border {
+  border-color: var(--color-border);
+}
+
+.custom-accent {
+  color: var(--color-accent);
+}
