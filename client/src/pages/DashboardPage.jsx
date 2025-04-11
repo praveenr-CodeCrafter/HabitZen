@@ -6,9 +6,9 @@ import HabitModal from '../components/HabitModal';
 function Dashboard() {
   const [showModal, setShowModal] = useState(false);
   const [habits, setHabits] = useState([
-    { id: 1, title: 'Morning Workout', streak: 5, completed: true },
-    { id: 2, title: 'Read 30 minutes', streak: 3, completed: false },
-    { id: 3, title: 'Meditate', streak: 7, completed: true },
+    { id: 1, title: 'Morning Workout', streak: 5, completed: true, lastCompleted: new Date().toDateString() },
+    { id: 2, title: 'Read 30 minutes', streak: 3, completed: false, lastCompleted: new Date().toDateString() },
+    { id: 3, title: 'Meditate', streak: 7, completed: true, lastCompleted: new Date().toDateString() },
   ]);
 
   const stats = [
@@ -18,9 +18,25 @@ function Dashboard() {
   ];
 
   const toggleHabitCompletion = (id) => {
-    setHabits(habits.map(habit => 
-      habit.id === id ? { ...habit, completed: !habit.completed } : habit
-    ));
+    setHabits(habits.map(habit => {
+      if (habit.id !== id) return habit;
+      
+      const today = new Date().toDateString();
+      const wasCompletedYesterday = () => {
+        const yesterday = new Date();
+        yesterday.setDate(yesterday.getDate() - 1);
+        return habit.lastCompleted === yesterday.toDateString();
+      };
+
+      return {
+        ...habit,
+        completed: !habit.completed,
+        streak: !habit.completed 
+          ? (wasCompletedYesterday() ? habit.streak + 1 : 1)
+          : habit.streak,
+        lastCompleted: !habit.completed ? today : habit.lastCompleted
+      };
+    }));
   };
 
   const addHabit = (newHabit) => {
