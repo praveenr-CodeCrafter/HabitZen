@@ -5,6 +5,7 @@ import Login from './pages/LoginPage';
 import Register from './pages/RegisterPage';
 import ResetPassword from './pages/ResetPasswordPage';
 import Dashboard from './pages/DashboardPage';
+import SettingsPage from './pages/SettingsPage';
 
 function App() {
   // TODO: Implement proper auth check
@@ -17,6 +18,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/reset-password" element={<ResetPassword />} />
         <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/settings" element={<SettingsPage />} />
         
         {/* Protected Routes */}
         <Route
