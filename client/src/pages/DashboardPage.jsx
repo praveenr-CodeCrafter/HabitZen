@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plus, CheckCircle2, Calendar, Award, Edit2, MoreVertical, Flame } from 'lucide-react';
 import Layout from '../components/layout';
 import HabitModal from '../components/HabitModal';
+import axios from 'axios';
 
 function Dashboard() {
   const [showModal, setShowModal] = useState(false);
@@ -39,14 +40,27 @@ function Dashboard() {
     }));
   };
 
-  const addHabit = (newHabit) => {
-    setHabits([...habits, {
-      id: habits.length + 1,
-      title: newHabit,
-      streak: 0,
-      completed: false
-    }]);
-    setShowModal(false);
+  // const addHabit = async (newHabit) => {
+  //   setHabits([...habits, {
+  //     id: habits.length + 1,
+  //     title: newHabit,
+  //     streak: 0,
+  //     completed: false
+  //   }]);
+  //   setShowModal(false);
+  // };
+
+  const addHabit = async (newHabit) => {
+    try {
+      // Send POST request to backend
+      const response = await axios.post('http://localhost:8000/api/habits', newHabit);
+      // Update habits state with the new habit from backend (if backend returns the created habit)
+      setHabits([...habits, response.data]);
+      setShowModal(false);
+    } catch (error) {
+      console.error('Error saving habit:', error);
+      // Optionally, show error to user
+    }
   };
 
   return (
