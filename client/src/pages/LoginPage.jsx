@@ -17,7 +17,7 @@ function Login() {
     setIsSubmitting(true);
     // Simulate API call
     try {
-      const response = await axios.post('/api/login/', {
+      const response = await axios.post(`${BACKEND_URL}/api/login/`, {
         email: formData.email,
         password: formData.password
       });
