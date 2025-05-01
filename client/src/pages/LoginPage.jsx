@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import AuthLayout from '../components/AuthLayout';
+import axios from 'axios';
 
 function Login() {
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -10,14 +12,30 @@ function Login() {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     // Simulate API call
-    setTimeout(() => {
-      console.log('Login:', formData);
+    try {
+      const response = await axios.post('/api/login/', {
+        email: formData.email,
+        password: formData.password
+      });
+  
+      const { access, refresh, user } = response.data;
+  
+      // Store tokens as needed (localStorage or cookie)
+      localStorage.setItem('accessToken', access);
+      localStorage.setItem('refreshToken', refresh);
+  
+      console.log('Logged in user:', user);
+      // redirect to dashboard or show success message
+    } catch (error) {
+      console.error('Login failed:', error.response?.data || error.message);
+      // Show error message to user
+    } finally {
       setIsSubmitting(false);
-    }, 1000);
+    }
   };
 
   const handleChange = (e) => {
