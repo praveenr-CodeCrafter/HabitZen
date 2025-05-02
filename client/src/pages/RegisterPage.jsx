@@ -3,6 +3,7 @@ import AuthLayout from '../components/AuthLayout';
 import { Eye, EyeOff, CheckCircle } from 'lucide-react';
 
 function Register() {
+  const BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://localhost:8000';
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -35,19 +36,28 @@ function Register() {
     return newErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const validationErrors = validate();
     setErrors(validationErrors);
     
-    if (Object.keys(validationErrors).length === 0) {
-      setIsSubmitting(true);
-      // Simulate API call
-      setTimeout(() => {
-        console.log('Registration successful:', formData);
-        setIsSubmitting(false);
-        setRegistrationSuccess(true);
-      }, 1500);
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/register/`, {
+        name: formData.name,
+        email: formData.email,
+        password: formData.password,
+      });
+
+      console.log('Registration successful:', response.data);
+      setRegistrationSuccess(true);
+    } catch (error) {
+      if (error.response && error.response.data) {
+        setErrors(error.response.data);
+      } else {
+        alert('An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
