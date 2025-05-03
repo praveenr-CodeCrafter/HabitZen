@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import AuthLayout from '../components/AuthLayout';
 import { MailCheck, Mail, Loader2 } from 'lucide-react';
+import axios from 'axios';
 
 function ResetPassword() {
   const [email, setEmail] = useState('');
@@ -21,18 +22,17 @@ function ResetPassword() {
     try {
       setIsSubmitting(true);
       
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // Simulate random errors for demo (remove in production)
-      if (Math.random() < 0.2) {
-        throw new Error('Network error occurred. Please try again.');
-      }
-      
-      console.log('Reset password for:', email);
+      const response = await axios.post('/api/auth/password-reset/', { email });
+
+      console.log('Reset password email sent:', response.data);
       setSubmitted(true);
     } catch (err) {
-      setError(err.message || 'Failed to send reset instructions');
+      console.error('Error:', err);
+      if (err.response && err.response.data && err.response.data.detail) {
+        setError(err.response.data.detail);
+      } else {
+        setError('Failed to send reset instructions');
+      }
     } finally {
       setIsSubmitting(false);
     }
