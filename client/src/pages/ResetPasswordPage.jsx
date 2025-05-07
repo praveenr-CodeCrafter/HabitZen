@@ -19,23 +19,23 @@ function ResetPassword() {
       return;
     }
 
-    // try {
-    //   setIsSubmitting(true);
+    try {
+      setIsSubmitting(true);
       
-    //   const response = await axios.post('/api/auth/password-reset/', { email });
+      const response = await axios.post('/api/auth/password-reset/', { email });
 
-    //   console.log('Reset password email sent:', response.data);
-    //   setSubmitted(true);
-    // } catch (err) {
-    //   console.error('Error:', err);
-    //   if (err.response && err.response.data && err.response.data.detail) {
-    //     setError(err.response.data.detail);
-    //   } else {
-    //     setError('Failed to send reset instructions');
-    //   }
-    // } finally {
-    //   setIsSubmitting(false);
-    // }
+      console.log('Reset password email sent:', response.data);
+      setSubmitted(true);
+    } catch (err) {
+      console.error('Error:', err);
+      if (err.response && err.response.data && err.response.data.detail) {
+        setError(err.response.data.detail);
+      } else {
+        setError('Failed to send reset instructions');
+      }
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
